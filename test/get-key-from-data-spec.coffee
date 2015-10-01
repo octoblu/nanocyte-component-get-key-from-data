@@ -10,5 +10,29 @@ describe 'GetKeyFromData', ->
 
   describe '->onEnvelope', ->
     describe 'when called with an envelope', ->
-      it 'should return the message', ->
-        expect(@sut.onEnvelope({message: 'anything'})).to.deep.equal 'anything'
+      beforeEach ->
+        envelope =
+          message:
+            data:
+              british: 'it-up-a-bit'
+          config:
+            key: 'british'
+
+        @result = @sut.onEnvelope envelope
+
+      it 'should return key from data', ->
+        expect(@result).to.deep.equal british: 'it-up-a-bit'
+
+    describe 'when called with another envelope', ->
+      beforeEach ->
+        envelope =
+          message:
+            data:
+              posh: 'accent'
+          config:
+            key: 'posh'
+
+        @result = @sut.onEnvelope envelope
+
+      it 'should return key from data', ->
+        expect(@result).to.deep.equal posh: 'accent'
