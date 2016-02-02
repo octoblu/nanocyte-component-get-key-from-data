@@ -36,3 +36,33 @@ describe 'GetKeyFromData', ->
 
       it 'should return key from data', ->
         expect(@result).to.deep.equal posh: 'accent'
+
+    describe 'when called with an envelope that has an "as" key', ->
+      beforeEach ->
+        envelope =
+          message:
+            data:
+              british: 'it-up-a-bit'
+          config:
+            key: 'british'
+            as: 'terrorists'
+
+        @result = @sut.onEnvelope envelope
+
+      it 'should return key from data', ->
+        expect(@result).to.deep.equal terrorists: 'it-up-a-bit'
+
+    describe 'when called with an envelope that has an empty "as" key', ->
+      beforeEach ->
+        envelope =
+          message:
+            data:
+              british: 'it-up-a-bit'
+          config:
+            key: 'british'
+            as: ''
+
+        @result = @sut.onEnvelope envelope
+
+      it 'should return key from data', ->
+        expect(@result).to.deep.equal british: 'it-up-a-bit'
